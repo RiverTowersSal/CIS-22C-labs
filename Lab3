@@ -1,0 +1,138 @@
+from Wallet import *
+
+def merge(num, l, m, r):
+    n1 = m - l + 1
+    n2 = r - m
+
+    # creates temporary arrays, left side and right side
+    Left = [0] * (n1)
+    Right = [0] * (n2)
+
+    # Copy data to temp arrays L[] and R[]
+    for i in range(0, n1):
+        Left[i] = num[l + i]
+
+    for j in range(0, n2):
+        Right[j] = num[m + 1 + j]
+
+    #Initialization of left, middle and right side of array
+    #Creates subarrays
+    i = 0
+    j = 0
+    k = l
+
+    while i < n1 and j < n2:
+        if Left[i] < Right[j] or Left[i] == Right[j]:
+            num[k] = Left[i]
+            i += 1
+        else:
+            num[k] = Right[j]
+            j += 1
+        k += 1
+
+    #Left side of array
+    while i < n1:
+        num[k] = Left[i]
+        i += 1
+        k += 1
+    #Right side of array
+    while j < n2:
+        num[k] = Right[j]
+        j += 1
+        k += 1
+
+
+# l is for left index and r is right index of the array to be sorted
+def mergeSort(num, l, r):
+    if l < r:
+        m = (l + (r - 1)) // 2
+
+        # Sort first and second halves
+        mergeSort(num, l, m)
+        mergeSort(num, m + 1, r)
+
+        #Shows left side intermediate steps when printing
+        #left side to middle
+        for z in num[l:m+1]:
+            print (z)
+            print("")
+
+        #shows right side intermediate steps when printing
+        #middle to right side
+        for z in num[m+1:r+1]:
+            print(z)
+            print("")
+        merge(num, l, m, r)
+
+
+#asks user what type of currency they want to enter
+#asks for dollars being input and cents being input for each individual object in the array
+#once done, the user is brought back to the starting menu
+def menu():
+    i = 1
+    wallet = Wallet()
+    choice = 1
+    sort_max_size = 16
+    int(sort_max_size)
+
+
+    """n = int(input("Enter size of Array"))
+
+    if n > sort_max_size:
+        print("Please enter array size not over 16")
+        menu()"""
+
+    while choice != 0:
+        try:
+            choice = int(input("What type of data will you enter\n"
+                                   "[1]USD\n"
+                                   "[2]CAD\n"
+                                   "[3]AUD\n"
+                                   "[0]Quit Program"))
+
+            n = int(input("Enter size of Array"))
+
+            if n > sort_max_size:
+                print("Please enter array size not over 16")
+                menu()
+
+            if choice == 1:
+                    if i <= n:
+                        num = [USD(int(input("Dollar amount")), int (input("Cents amount"))) for x in range(n)]
+                        mergeSort(num,0,n-1)
+                        for i in range(n):
+                            print (num[i])
+                        print("sorted array is: ", num.__str__())
+                    else:
+                        return
+
+            elif choice == 2:
+                if i <= n:
+                    num = [CAD(int(input("Dollar amount")), int(input("Cents amount"))) for x in range(n)]
+                    mergeSort(num, 0, n - 1)
+                    for i in range(n):
+                        print(num[i])
+                    print("sorted array is: ", num.__str__())
+                else:
+                    return
+
+            elif choice == 3:
+                if i <= n:
+                    num = [AUD(int(input("Dollar amount")), int(input("Cents amount"))) for x in range(n)]
+                    mergeSort(num, 0, n - 1)
+                    for i in range(n):
+                        print(num[i])
+                    print("sorted array is: ", num.__str__())
+                else:
+                    return
+
+            elif choice == 0:
+                print("Bye bye")
+
+            else:
+                print("Option not valid, please try 1-3")
+
+        except:
+            print("Valid integer was not entered")
+
+menu()
