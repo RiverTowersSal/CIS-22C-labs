@@ -1,0 +1,97 @@
+from Wallet import*
+
+def display_hash(hashTable):
+    for i in range(len(hashTable)):
+        print(i, end=" ")
+
+        for j in hashTable[i]:
+            print("-->", end=" ")
+            print(j, end=" ")
+
+        print()
+
+
+# Creating Hashtable as
+# a nested list.
+HashTable = [[] for _ in range(29)]
+
+
+# Hashing Function to return
+# key for every value.
+def Hashing(keyvalue):
+    return keyvalue % len(HashTable)
+
+
+# Insert Function to add
+# values to the hash table
+def insert(Hashtable, keyvalue, value):
+    hash_key = Hashing(keyvalue)
+    Hashtable[hash_key].append(value)
+
+
+# Driver Code
+insert(HashTable, 1 ,USD(23,44))
+insert(HashTable,2 ,USD(87,43))
+insert(HashTable, 3,USD(68,99))
+insert(HashTable, 4,USD(111,22))
+insert(HashTable, 5,USD(44,55))
+insert(HashTable, 6,USD(77,77))
+insert(HashTable, 7,USD(18,36))
+insert(HashTable, 8,USD(543,21))
+insert(HashTable, 9,USD(20,21))
+insert(HashTable, 10,USD(345,67))
+insert(HashTable, 11,USD(36,18))
+insert(HashTable, 12,USD(48,48))
+insert(HashTable, 13,USD(101,00))
+insert(HashTable, 14,USD(11))
+insert(HashTable, 15,USD(51))
+insert(HashTable, 16,USD(1))
+insert(HashTable, 17,USD(251))
+insert(HashTable, 18,USD(151,0))
+
+
+
+def search(root, key):
+    print(root.key,key)
+    # Base Cases: root is null or key is present at root
+    if root is None or root.key == key:
+        return root
+
+    # Key is greater than root's key
+    if root.key < key:
+        return search(root.right, key)
+
+    # Key is smaller than root's key
+    return search(root.left, key)
+
+display_hash(HashTable)
+def menu():
+    choice = 2
+    global root
+    while choice !=0:
+        try:
+            choice = int(input("What would you like to do?\n"
+                               "[1]Search\n"
+                               "[2]Display\n"
+                               "[0]Quit"))
+            if choice == 1:
+                choice_search = int(input("What would you like to search for?\n"))
+                if choice_search==search(root, USD(int(input("Dollar amount")), int(input("Cents amount")))):
+                    print("Yes it exists")
+                else:
+                    print("Invalid Data")
+
+            elif choice == 2:
+                print(display_hash(HashTable))
+
+            elif choice == 0:
+                print("Bye bye")
+
+            else:
+                print("Option not valid, please try 0,1 or 2")
+
+        except:
+
+            print("Valid integer was not entered")
+
+menu()
