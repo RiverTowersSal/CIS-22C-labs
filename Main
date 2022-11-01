@@ -1,0 +1,189 @@
+# Options menu so that when the program is ran, the user is given options on what to do
+from Wallet import *
+
+def menu():
+  wallet = Wallet()
+  choice = 1
+  while choice != 0:
+
+    print("[1]Add to wallet\n"
+          "[2]Remove from wallet\n"
+          "[3]Compare currencies\n"
+          "[4]Display what is in wallet\n"
+          "[5]Empty wallet\n"
+          "[0]Quit Program\n")
+
+    #each choice leads to a different function being executed
+    try:
+      choice = int(input("What would you like to do? (Enter 0-5)"))
+      if choice == 0:
+        print("Someone came behind you and stabbed you for finding the wallet. Always gotta be aware of your surroundings")
+      elif choice == 1:
+        print(adding(wallet))
+      elif choice == 2:
+        print(subtract(wallet))
+      elif choice == 3:
+        compare(wallet)
+      elif choice == 4:
+        print(wallet)
+      elif choice == 5:
+        wallet = Wallet()
+        print(wallet)
+      else:
+        print("Option not valid. Enter 0-5")
+
+  #Makes it so users can only enter numbers(0-5) and if they enter anything else(letters/different numbers) it brings them back to the original menu
+    except:
+      print("Option not valid. Enter 0-5")
+
+
+
+#Define variables to be edited
+#Currencies within the wallet, value is set to zero because the wallet needs to have a starting amount of money
+
+
+
+# option 1, add to wallet.
+#Can only add the same currencies
+def adding(wallet):
+  while(True):
+    try:
+      #Menu so that user knows which currency is being added
+      currency_option = int(input("What type of currency would you like to add?\n"
+                                    "[1]USD\n" #y.dollar
+                                    "[2]CAD\n"#x.dollar
+                                    "[3]AUD)\n")) #z.dollar
+
+      if currency_option == 1:
+        print("You have selected USD.")
+        dollar = int(input("How many DOLLARS would you like to add?"))
+        cents = int(input("How many CENTS would you like to add?"))
+        wallet.amount_USD = wallet.amount_USD + USD(dollar,cents)
+        print("You now have $", wallet.amount_USD)
+        return
+      elif currency_option == 2:
+        print("You have selected CAD.")
+        dollar = int(input("How many DOLLARS would you like to add?"))
+        cents = int(input("How many CENTS would you like to add?"))
+        wallet.amount_CAD = wallet.amount_CAD + CAD(dollar,cents)
+        print("You now have $", wallet.amount_CAD)
+        return
+      elif currency_option == 3:
+        print("You have selected AUD.")
+        dollar = int(input("How many DOLLARS would you like to add?"))
+        cents = int(input("How many CENTS would you like to add?"))
+        wallet.amount_AUD = wallet.amount_AUD + AUD(dollar,cents)
+        print("You now have $", wallet.amount_AUD)
+        return
+      else:
+        print("Option not valid. Enter 1-3")
+
+    except:
+      print("Valid integer was not entered")
+
+#Option 2, subtract from wallet
+#Can only subtract from the same currency
+#Made it so the user cannot subtract more than what is inside the wallet, by having (amount_currency < 0)
+def subtract(wallet):
+  while (True):
+    try:
+      # Menu so that user knows which currency is being added
+      currency_option = int(input("What type of currency would you like to add?\n"
+                                  "[1]USD\n"  # y.dollar
+                                  "[2]CAD\n"  # x.dollar
+                                  "[3]AUD)\n"))  # z.dollar
+
+      if currency_option == 1:
+        print("You have selected USD.")
+        dollar = int(input("How many DOLLARS would you like to remove?"))
+        cents = int(input("How many CENTS would you like to remove?"))
+        usdollars = USD(dollar, cents)
+        if usdollars <= wallet.amount_USD:
+          wallet.amount_USD = wallet.amount_USD - usdollars
+          print("You now have $", wallet.amount_USD)
+          return
+        else:
+          print("Cant remove what you dont have")
+      elif currency_option == 2:
+        print("You have selected CAD.")
+        dollar = int(input("How many DOLLARS would you like to remove?"))
+        cents = int(input("How many CENTS would you like to remove?"))
+        cadollars = CAD(dollar,cents)
+        if cadollars <= wallet.amount_CAD:
+          wallet.amount_CAD = wallet.amount_CAD - cadollars
+          print("You now have $", wallet.amount_CAD)
+          return
+        else:
+          print("You don't have that much money")
+      elif currency_option == 3:
+        print("You have selected AUD.")
+        dollar = int(input("How many DOLLARS would you like to remove?"))
+        cents = int(input("How many CENTS would you like to remove?"))
+        audollars = AUD(dollar,cents)
+        if audollars <= wallet.amount_AUD:
+          wallet.amount_AUD = wallet.amount_AUD - audollars
+          print("You now have $", wallet.amount_AUD)
+          return
+        else:
+          print("You don't have that much money")
+
+      else:
+        print("Option not valid. Enter 1-3")
+
+    except:
+      print("Valid integer was not entered")
+
+#Option 3, compare
+#compares a currency with another to see how many of one currency there is for every 1 of another currency
+def compare(wallet):
+  while (True):
+    try:
+      # Menu so that user knows which currency is being added
+      currency_option = int(input("What type of currency would you like to compare?\n"
+                                  "[1]USD\n" 
+                                  "[2]CAD\n"  
+                                  "[3]AUD)\n"))
+
+      if currency_option == 1:
+        print("You have selected USD.")
+        dollar = int(input("How many DOLLARS would you like to compare?"))
+        cents = int(input("How many CENTS would you like to compare"))
+        comparing = USD(dollar, cents)
+        if wallet.amount_USD == comparing:
+          print("They are equal amounts")
+        elif wallet.amount_USD < comparing:
+          print("Less than")
+        else:
+          print("Greater than")
+        return
+      elif currency_option == 2:
+        print("You have selected CAD.")
+        dollar = int(input("How many DOLLARS would you like to compare?"))
+        cents = int(input("How many CENTS would you like to compare?"))
+        comparing = CAD(dollar, cents)
+        if wallet.amount_CAD == comparing:
+          print("They are equal amounts")
+        elif wallet.amount_CAD < comparing:
+          print("Less than")
+        else:
+          print("Greater than")
+        return
+      elif currency_option == 3:
+        print("You have selected AUD.")
+        dollar = int(input("How many DOLLARS would you like to compare"))
+        cents = int(input("How many CENTS would you like to compare"))
+        comparing = AUD(dollar, cents)
+        if wallet.amount_AUD == comparing:
+          print("They are equal amounts")
+        elif wallet.amount_AUD < comparing:
+          print("Less than")
+        else:
+          print("Greater than")
+        return
+      else:
+        print("Option not valid. Enter 1-3")
+
+    except:
+      print("Valid integer was not entered")
+
+menu()
