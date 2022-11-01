@@ -1,0 +1,202 @@
+from Wallet import*
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+    def __str__(self):
+        return self.data,self.next
+
+    def get_data(self):
+        return self.data
+
+    def get_next(self):
+        return self.next
+
+    def set_data(self, new_data):
+        self.data = new_data
+
+    def set_next(self, new_next):
+        self.next = new_next
+
+class Linked_list:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        return
+
+    def pushback(self,x):
+        if self.tail == None:
+            self.tail = Node(x)
+            self.head = self.tail
+            return
+        else:
+            self.tail.next = Node(x)
+            self.tail = self.tail.next
+    def pushfront(self,x):
+        if self.head == None:
+            self.head = Node(x)
+            self.tail = self.head
+        else:
+            n = Node(x)
+            n.next = self.head
+            self.head = n
+
+    def popback(self):
+        if self.tail == None:
+            return None
+        elif self.tail == self.head:
+            self.tail = None
+            self.head = None
+        else:
+            current = self.head
+            while current.next.next != None:
+                current = current.next
+            current.next = None
+            self.tail = current
+
+    def popfront(self):
+        if self.head == None:
+            return None
+        elif self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
+
+class Stack:
+    # Initializes stack using dummy node
+    def __init__(self):
+        self.head = Node("head")
+        self.size = 0
+
+
+    # String representation of the stack
+    def __str__(self):
+        cur = self.head.next
+        out = ""
+        while cur:
+            out += str(cur.data) + "->"
+            cur = cur.next
+        return out[:-2]
+
+    # Get the current size of the stack
+    def getSize(self):
+        return self.size
+
+    # Check if the stack is empty
+    def isEmpty(self):
+        return self.size == 0
+
+    # Get the top item of the stack
+    def peek(self):
+        # Checks if peeking an empty sack
+        if self.isEmpty():
+            raise Exception("Peeking from an empty stack")
+        return self.head.next.data
+
+    # Push a value into the stack.
+    def push(self, data):
+        node = Node(data)
+        node.next = self.head.next
+        self.head.next = node
+        self.size += 1
+
+    # Remove a value from the stack and return.
+    def pop(self):
+        if self.isEmpty():
+            raise Exception("Popping from an empty stack")
+        remove = self.head.next
+        self.head.next = self.head.next.next
+        self.size -= 1
+        return remove.data
+
+class Queue:
+    def __init__(self):
+        self.front = self.rear = None
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        s = ""
+        current = self.front
+        while current != None:
+            s += str(current.data)
+            s += "->"
+            current = current.next
+        s += "None"
+        return s
+    def isEmpty(self):
+        return self.front == None
+
+    # Method to add an item to the queue
+    def EnQueue(self, item):
+        temp = Node(item)
+
+        if self.rear == None:
+            self.front = self.rear = temp
+            return
+        self.rear.next = temp
+        self.rear = temp
+
+    # Method to remove an item from queue
+    def DeQueue(self):
+
+        if self.isEmpty():
+            return
+        temp = self.front
+        self.front = temp.next
+
+        if (self.front == None):
+            self.rear = None
+
+    def peek(self):
+        #checks if empty Queue
+
+        if self.front:
+            return self.front.data
+        else:
+            exit()
+
+
+
+
+if __name__ == "__main__":
+    s = Stack()
+    s.push(USD(10))
+    s.push(USD(10))
+    s.push(USD(12))
+
+    s.push(USD(13))
+
+
+    s.pop()
+    s.push(USD(17))
+
+    print(s.peek())
+    print("Stack", s)
+    print(s.head.data)
+
+
+    q = Queue()
+
+    q.EnQueue(USD(1))
+    q.EnQueue(USD(2))
+    q.EnQueue(USD(3))
+    q.EnQueue(USD(4))
+
+    print(q.peek())
+
+    q.DeQueue()
+    q.DeQueue()
+    q.EnQueue(USD(400))
+    q.EnQueue(USD(30))
+    q.EnQueue(USD(40))
+    q.EnQueue(USD(50))
+    q.EnQueue(USD(1))
+    q.DeQueue()
+    print("Queue:", q)
+    print("Queue Front " + str(q.front.data))
+    print("Queue Rear " + str(q.rear.data))
